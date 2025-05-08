@@ -1,0 +1,557 @@
+{
+	"info": {
+		"_postman_id": "biosafe-ai-collection",
+		"name": "BiosafeAI",
+		"description": "API collection for BiosafeAI - AI powered farmer social network",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"farmer1\",\n    \"email\": \"farmer1@example.com\",\n    \"password\": \"password123\",\n    \"role\": \"FARMER\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "register"]
+						}
+					}
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"farmer1\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "login"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Chat",
+			"item": [
+				{
+					"name": "Get User Chats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/chat/rooms",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat", "rooms"]
+						}
+					}
+				},
+				{
+					"name": "Create Direct Chat",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/chat/direct/2",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat", "direct", "2"]
+						}
+					}
+				},
+				{
+					"name": "Create Group Chat",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/chat/group?name=Wheat Farmers&description=Group for wheat cultivation&participantIds=1,2,3&tags=wheat,farming",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat", "group"],
+							"query": [
+								{
+									"key": "name",
+									"value": "Wheat Farmers"
+								},
+								{
+									"key": "description",
+									"value": "Group for wheat cultivation"
+								},
+								{
+									"key": "participantIds",
+									"value": "1,2,3"
+								},
+								{
+									"key": "tags",
+									"value": "wheat,farming"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Add Participants to Group",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/chat/group/1/participants?participantIds=4,5",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat", "group", "1", "participants"],
+							"query": [
+								{
+									"key": "participantIds",
+									"value": "4,5"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Remove Participant from Group",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/chat/group/1/participants/2",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat", "group", "1", "participants", "2"]
+						}
+					}
+				},
+				{
+					"name": "Send Text Message",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "chatRoomId",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "Hello everyone!",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "TEXT",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/chat/messages",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat", "messages"]
+						}
+					}
+				},
+				{
+					"name": "Send Media Message",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "chatRoomId",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "Check out this image!",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "IMAGE",
+									"type": "text"
+								},
+								{
+									"key": "mediaFile",
+									"type": "file",
+									"src": "/path/to/image.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/chat/messages",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat", "messages"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Articles",
+			"item": [
+				{
+					"name": "Get All Articles",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/articles",
+							"host": ["{{base_url}}"],
+							"path": ["articles"]
+						}
+					}
+				},
+				{
+					"name": "Get Articles by Culture",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/articles/culture/1",
+							"host": ["{{base_url}}"],
+							"path": ["articles", "culture", "1"]
+						}
+					}
+				},
+				{
+					"name": "Get Articles by Publisher",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/articles/publisher/1",
+							"host": ["{{base_url}}"],
+							"path": ["articles", "publisher", "1"]
+						}
+					}
+				},
+				{
+					"name": "Get Articles by Type",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/articles/type/DOCUMENT",
+							"host": ["{{base_url}}"],
+							"path": ["articles", "type", "DOCUMENT"]
+						}
+					}
+				},
+				{
+					"name": "Get Article by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/articles/1",
+							"host": ["{{base_url}}"],
+							"path": ["articles", "1"]
+						}
+					}
+				},
+				{
+					"name": "Create Article",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"titre\": \"Wheat Cultivation Guide\",\n    \"type\": \"DOCUMENT\",\n    \"content\": \"Detailed guide about wheat cultivation...\",\n    \"description\": \"A comprehensive guide for wheat farmers\",\n    \"cultureId\": 1,\n    \"publisherId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/articles",
+							"host": ["{{base_url}}"],
+							"path": ["articles"]
+						}
+					}
+				},
+				{
+					"name": "Update Article",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"titre\": \"Updated Wheat Cultivation Guide\",\n    \"type\": \"DOCUMENT\",\n    \"content\": \"Updated detailed guide about wheat cultivation...\",\n    \"description\": \"An updated comprehensive guide for wheat farmers\",\n    \"cultureId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/articles/1",
+							"host": ["{{base_url}}"],
+							"path": ["articles", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Cultures",
+			"item": [
+				{
+					"name": "Get All Cultures",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/cultures",
+							"host": ["{{base_url}}"],
+							"path": ["api", "cultures"]
+						}
+					}
+				},
+				{
+					"name": "Get Culture by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/cultures/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "cultures", "1"]
+						}
+					}
+				},
+				{
+					"name": "Get Cultures by Type",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/cultures/type/CEREAL",
+							"host": ["{{base_url}}"],
+							"path": ["api", "cultures", "type", "CEREAL"]
+						}
+					}
+				},
+				{
+					"name": "Create Culture",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Wheat\",\n    \"type\": \"CEREAL\",\n    \"photoUrl\": \"https://example.com/wheat.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/cultures",
+							"host": ["{{base_url}}"],
+							"path": ["api", "cultures"]
+						}
+					}
+				},
+				{
+					"name": "Add Media to Culture",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "files",
+									"type": "file",
+									"src": "/path/to/image1.jpg"
+								},
+								{
+									"key": "files",
+									"type": "file",
+									"src": "/path/to/image2.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/cultures/1/media",
+							"host": ["{{base_url}}"],
+							"path": ["api", "cultures", "1", "media"]
+						}
+					}
+				},
+				{
+					"name": "Update Culture",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Wheat Updated\",\n    \"type\": \"CEREAL\",\n    \"photoUrl\": \"https://example.com/wheat-updated.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/cultures/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "cultures", "1"]
+						}
+					}
+				},
+				{
+					"name": "Delete Culture",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/cultures/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "cultures", "1"]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "your_jwt_token_here",
+			"type": "string"
+		}
+	]
+} 
